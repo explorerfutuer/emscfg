@@ -1,0 +1,245 @@
+*  Origin Config
+    没有第三方插件的配置项
+    #+BEGIN_SRC emacs-lisp
+	(setq ring-bell-function 'ignore)
+	(global-auto-revert-mode t)
+	(set-face-attribute 'default nil :height 160)
+	;; 设置行号
+	(global-linum-mode t)
+	(setq linum-format "%4d \u2502 ")
+	;; 禁止备份
+	(setq make-backup-files nil)
+	(setq auto-save-default nil)
+	;; 最近打开文件配置
+	(require 'recentf)
+	(recentf-mode 1)
+	(setq recentf-max-menu-items 50)
+	(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+	(set-language-environment "UTF-8")
+        (show-paren-mode t)
+	;; 缓冲区打开关闭
+	(setq indo-enable-fles-matching t)
+	(setq ido-everywhere t)
+	(ido-mode 1)
+	;;(defalias 'list-buffers 'ibuffer)
+	;;(defalias 'list-buffers 'ibuffer-other-windows)
+	(global-set-key (kbd "C-c b") #'list-buffers)
+	(fset 'yes-or-no-p 'y-or-n-p)
+	(global-set-key (kbd "<f5>") 'revert-buffer) 
+	;; 设置tab为4根空格宽度，将tab转换为空格
+	(setq-default indent-tabs-mode nil)
+	(setq-default tab-width 2)
+    (setq tab-width 2)
+    (setq-default c-basic-offset 2)
+    (setq c-basic-offset 2)
+    (setq-default c-basic-indent 2)
+
+    (setq c-default-style "linux"
+      c-basic-offset 2)
+    (add-hook 'c-mode-common-hook '(lambda()
+      (c-set-style "K&R")
+      (setq tab-width 2)
+      (setq c-basic-offset 2)))
+    #+END_SRC
+*  Meta Elpa
+   添加安装插件的源
+   #+BEGIN_SRC emacs-lisp
+	(add-to-list 'package-archives '("melpa" . "http://elpa.emacs-china.org/melpa/") t)
+   #+END_SRC
+*  Indent and Tidy
+   缩进和格式化
+   #+BEGIN_SRC emacs-lisp
+     (use-package hungry-delete
+       :ensure t
+       :config (global-hungry-delete-mode t))
+     (use-package aggressive-indent
+       :ensure t
+       :config
+       (global-aggressive-indent-mode 1))
+   #+END_SRC
+*  Nice Tip 
+   友好提示
+   #+BEGIN_SRC emacs-lisp
+     ;; 帮助提示快捷键
+     (use-package which-key
+       :ensure t
+       :config (which-key-mode))
+   #+END_SRC
+*  Theme
+   主题设置
+   #+BEGIN_SRC  emacs-lisp
+     (use-package zenburn-theme
+       :ensure t
+       :config (load-theme 'zenburn t))
+   #+END_SRC
+*  Search
+   #+BEGIN_SRC emacs-lisp
+	(use-package counsel
+	  :ensure t)
+	;; 正则查找字符串
+	(use-package swiper
+	  :ensure try
+	  :bind(("C-s" . swiper)
+		("C-r" . swiper)
+		("C-c C-r" . swiper)
+		("M-x" . counsel-M-x)
+		("C-x C-f" . counsel-find-file))
+	  :config
+	  (progn
+	    (ivy-mode 1)
+	    (setq ivy-use-virtual-buffers t)
+	    (setq enable-recursive-minibuffers t)
+	    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+	    ))
+	;; 通过一个一个的按键定位输入的关键字
+	(use-package avy
+	  :ensure t
+	  :bind(("M-g c" . avy-goto-char)
+		("M-g w" . avy-goto-word-1))
+	  )
+   #+END_SRC
+*  Org 
+   Org模式配置
+   #+BEGIN_SRC emacs-lisp
+     ;; Org模式标题状态
+     (use-package org-bullets 
+       :ensure t
+       :config (add-hook 'org-mode-hook 'org-bullets-mode))
+     ;; 
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((python . t) 
+        (emacs-lisp . t)
+        (C . t)
+        (latex . t)
+        ))
+   #+END_SRC
+*  Markdown
+  #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode
+      :ensure t
+      :mode (("README\\.md\\'" . gfm-mode)
+	     ("\\.md\\'" . markdown-mode)
+	     ("\\.markdown\\'" . markdown-mode))
+      :init (setq markdown-command "multimarkdown"))
+  #+END_SRC
+*  Python
+   python相关的插件
+   [[https://elpy.readthedocs.io/en/latest/][Elpy]] Emacs for python develop config
+   Flask: 轻量级的web服务器开发
+   #+BEGIN_SRC emacs-lisp
+     (setq py-python-command "python3")
+     (setq python-shell-interpreter "python3")
+   #+END_SRC
+*  Code
+**  git
+    magit emacs管理代码
+    #+BEGIN_SRC emacs-lisp
+      ;; git代码管理
+      (use-package magit
+        :ensure t)
+    #+END_SRC
+*  Complete
+   补全
+   #+BEGIN_SRC emacs-lisp
+     ;; 补全
+     (use-package auto-complete
+       :ensure t
+       :config
+       (setq company-idle-delay 0)
+       (setq company-minimum-prefix-length 3)
+       )
+       ;; global-company-mode
+     (use-package yasnippet
+       :ensure t
+       :init
+       (yas-global-mode 1))
+   #+END_SRC
+*  multi windows manage
+   多窗口管理配置
+   #+BEGIN_SRC emacs-lisp
+	;; 对于C-x o 选择窗口提供了快捷键选择
+	(use-package ace-window
+	  :ensure t
+	  :init
+	  (progn
+	  (global-set-key [remap other-window] 'ace-window)
+	  (custom-set-faces
+	   '(aw-leading-char-face
+	     ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+	  ))
+   #+END_SRC
+*  revert
+   将org文件导出为html文件，并且可以设置样式什么的
+   如果时间充足可以研究一下
+   Rawgit
+   #+BEGIN_SRC emacs-lisp  :tangle no                                                                                                              
+     (use-package ox-reveal                                                                                                                          
+       :ensure t
+       :config
+       (require 'ox-reveal)                                                                                                                          
+       (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")                                                                             
+       (setq org-reveal-mathjax t)                                                                                                                   
+       )                                                                                                                                                 
+     (use-package htmlize                                                                                                                          
+       :ensure t) 
+   #+END_SRC
+*  Yasnippet
+   补全工具
+   [[https://github.com/AndreaCrotti/yasnippet-snippets][插件下载]]
+   #+BEGIN_SRC emacs-lisp
+     (use-package yasnippet
+       :ensure t
+       :config
+       (yas-global-mode 1))
+   #+END_SRC
+
+0:00:40 
+0:00:44
+*  Jump Define
+  函数定义的跳转
+  #+BEGIN_SRC emacs-lisp
+    (use-package dumb-jump
+      :bind (("M-g o" . dumb-jump-go-other-window)
+             ("M-g j" . dumb-jump-go)
+             ("M-g k" . dumb-jump-back)
+             ("M-g i" . dumb-jump-go-prompt)
+             ("M-g x" . dumb-jump-go-prefer-external)
+             ("M-g z" . dumb-jump-go-prefer-external-other-window))
+      :config
+      (setq dumb-jump-selector 'ivy)
+      :ensure)
+  #+END_SRC
+*  CollFunction
+   非常酷使用的插件
+   #+BEGIN_SRC emacs-lisp
+     (use-package smartparens
+       :ensure t
+       :config
+       (require 'smartparens-config)
+       (smartparens-global-mode t)
+       (show-smartparens-global-mode t)
+       (setq sp-show-pair-delay 1)
+
+       ;; no '' pair in emacs-lisp-mode
+       (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+       (sp-local-pair 'markdown-mode "`"   nil :actions '(wrap insert))  ;; only use ` for wrap and auto insertion in markdown-mode
+       (sp-local-tag 'markdown-mode "s" "```scheme" "```")
+       (define-key smartparens-mode-map (kbd "C-s-<right>") 'sp-forward-slurp-sexp)
+       (define-key smartparens-mode-map (kbd "C-s-<left>") 'sp-forward-barf-sexp))
+     ;; 扩展当前光标的选择区域
+     (use-package expand-region
+       :ensure t
+       :config
+       (global-set-key (kbd "C-=") 'er/expand-region))
+   #+END_SRC
+*  Inner Script Mode
+** yaml
+   #+BEGIN_SRC emacs-lisp
+     (use-package yaml-mode
+       :ensure t)
+   #+END_SRC
+** proto
+*  Other 
+  repl.it [https://repl.it/]
+  using-emacs 接下来进度: https://www.bilibili.com/video/av18546864/?p=16
