@@ -240,6 +240,18 @@
        :ensure t)
    #+END_SRC
 ** proto
+   #+BEGIN_SRC emacs-lisp
+     (use-package protobuf-mode
+       :ensure t)
+   #+END_SRC
+*  Go
+** go-mode
+   #+BEGIN_SRC emacs-lisp
+     (use-package go-mode
+       :ensure t
+       :mode (("\\.go'\\'" . go-mode))
+       :hook ((before-save . gofmt-before-save)))
+   #+END_SRC
 *  Other 
   repl.it [https://repl.it/]
   using-emacs 接下来进度: https://www.bilibili.com/video/av18546864/?p=16

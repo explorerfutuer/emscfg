@@ -16,9 +16,9 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (emacsql yaml-mode cmake-mode protobuf-mode markdown-mode avy expand-region aggressive-indent dumb-jump undo-tree virtualenvwrapper elpy jedi flycheck yasnippet company-jedi doom-modeline auto-complete try counsel swiper ni ace-window org-bullets company smartparens magit zenburn-theme which-key use-package)))
+    (go-mode emacsql yaml-mode cmake-mode protobuf-mode markdown-mode avy expand-region aggressive-indent dumb-jump undo-tree virtualenvwrapper elpy jedi flycheck yasnippet company-jedi doom-modeline auto-complete try counsel swiper ni ace-window org-bullets company smartparens magit zenburn-theme which-key use-package)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(sp-escape-quotes-after-insert nil t)
+ '(sp-escape-quotes-after-insert nil)
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
